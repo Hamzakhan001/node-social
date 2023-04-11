@@ -34,7 +34,14 @@ router.put("/:id",async(req,res)=>{
 	}
 })
 
-router.get("/",(req,res)=>{
+router.get("/",async (req,res)=>{
+	let user=await User.find({email:req.body.email})
+	if(!user){
+		return res.status(500).send("User with this email doesn't exist!")
+	}
+	
+
+
 	res.send("user route")
 })
 
