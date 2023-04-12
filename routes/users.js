@@ -34,15 +34,21 @@ router.put("/:id",async(req,res)=>{
 	}
 })
 
-router.get("/",async (req,res)=>{
-	let user=await User.find({email:req.body.email})
-	if(!user){
-		return res.status(500).send("User with this email doesn't exist!")
+router.delete("/:id",async (req,res)=>{
+	if(req.body.userId==req.params.id || req.body.isAdmin){
+
+		try{
+			const user=await User.deleteOne(req.params.id);
+			res.status(200).json("Account has been upadated")
+		}
+		catch(err){
+			res.status(500).json(err)
+		}
+
 	}
-	
-
-
-	res.send("user route")
+	else{
+		return res.status(403).json("You can delete only your account")
+	}
 })
 
 
